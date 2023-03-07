@@ -156,7 +156,7 @@
                             "title": "Animation",
                             "description": "Preset animation to apply to this image. Cannot be changed afterwards",
                             "type": "string",
-                            "enum": ["shake", "nod"]
+                            "enum": ["shake", "nod", "spin"]
                         },
                         "transitions": {
                             "title": "Transitions",
