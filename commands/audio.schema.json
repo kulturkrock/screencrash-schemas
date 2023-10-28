@@ -72,7 +72,7 @@
                             "description": "Entity ID to use for this clip. Subsequent commands uses this ID to refer to this instance",
                             "type": "string"
                         },
-                        "loops": {
+                        "looping": {
                             "title": "Number of loops",
                             "description": "Number of loops. 0 means infinitely many. Default 1",
                             "type": "number",
@@ -83,6 +83,18 @@
                             "description": "True if clip should start immediately. Default true",
                             "type": "boolean",
                             "default": true
+                        },
+                        "seamless": {
+                            "title": "Seamless mode",
+                            "description": "Seamless mode allows seamless loops, but requires setting mimeCodec.",
+                            "type": "boolean",
+                            "default": false
+                        },
+                        "mimeCodec": {
+                            "title": "MIME codec",
+                            "description": "MIME type and codec information of the video file(s), only needed when seamless is true.",
+                            "type": "string",
+                            "examples": ["audio/mp4; codecs=\"mp4a.40.2\""]
                         },
                         "start_at": {
                             "title": "Start position",
@@ -195,6 +207,49 @@
                     "title": "Description",
                     "description": "Description of what this action do",
                     "type": "string"
+                },
+                "params": {
+                    "type": "object",
+                    "properties": {
+                        "entityId": {
+                            "title": "Entity ID",
+                            "description": "Entity ID of the clip",
+                            "type": "string"
+                        }
+                    },
+                    "required": ["entityId"],
+                    "additionalProperties": false
+                }
+            },
+            "required": ["target", "cmd", "params"],
+            "additionalProperties": false
+        },
+        {
+            "title": "Set next file for audio",
+            "description": "Set next file for audio",
+            "properties": {
+                "target": { "const": "audio" },
+                "cmd": { "const": "set_next_file" },
+                "desc": {
+                    "title": "Description",
+                    "description": "Description of what this action do",
+                    "type": "string"
+                },
+                "assets": {
+                    "title": "Asset",
+                    "description": "Asset to play. This command expects exactly ONE asset",
+                    "type": "array",
+                    "items": {
+                        "oneOf":[
+                            {
+                                "title": "Asset ID",
+                                "type": "string"
+                            },
+                            {"$ref": "../asset.schema.json#"}
+                        ]
+                    },
+                    "minLength": 1,
+                    "maxLength": 1
                 },
                 "params": {
                     "type": "object",
@@ -331,6 +386,38 @@
                         }
                     },
                     "required": ["entityId"],
+                    "additionalProperties": false
+                }
+            },
+            "required": ["target", "cmd", "params"],
+            "additionalProperties": false
+        },
+        {
+            "title": "Set number of loops on audio",
+            "description": "Set the number of loops left on the audio, including the current one",
+            "properties": {
+                "target": { "const": "audio" },
+                "cmd": { "const": "set_loops" },
+                "desc": {
+                    "title": "Description",
+                    "description": "Description of what this action do",
+                    "type": "string"
+                },
+                "params": {
+                    "type": "object",
+                    "properties": {
+                        "entityId": {
+                            "title": "Entity ID",
+                            "description": "Entity ID of the clip",
+                            "type": "string"
+                        },
+                        "looping": {
+                            "title": "Number of loops",
+                            "description": "Number of loops, including current one. 0 means infinitely many.",
+                            "type": "number"
+                        }
+                    },
+                    "required": ["entityId", "looping"],
                     "additionalProperties": false
                 }
             },
