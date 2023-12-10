@@ -92,7 +92,7 @@
                         },
                         "mimeCodec": {
                             "title": "MIME codec",
-                            "description": "MIME type and codec information of the video file(s), only needed when seamless is true.",
+                            "description": "MIME type and codec information of the audio file(s), only needed when seamless is true.",
                             "type": "string",
                             "examples": ["audio/mp4; codecs=\"mp4a.40.2\""]
                         },
