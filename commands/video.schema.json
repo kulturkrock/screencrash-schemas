@@ -89,6 +89,18 @@
                             "type": "boolean",
                             "default": true
                         },
+                        "seamless": {
+                            "title": "Seamless mode",
+                            "description": "Seamless mode allows seamless loops, but does not work with all files and requires setting mimeCodec. MP4 files in particular need to be fragmented, e.g. with Bento4.",
+                            "type": "boolean",
+                            "default": false
+                        },
+                        "mimeCodec": {
+                            "title": "MIME codec",
+                            "description": "MIME type and codec information of the video file(s), only needed when seamless is true.",
+                            "type": "string",
+                            "examples": ["video/webm; codecs=\"vp9, vorbis\"", "video/mp4; codecs=\"avc1.640029, mp4a.40.2\""]
+                        },
                         "start_at": {
                             "title": "Start position",
                             "description": "Position in video file to start playback from, given in seconds. Float values are valid (up to 3 decimals)",
@@ -391,6 +403,49 @@
             "additionalProperties": false
         },
         {
+            "title": "Set next file for video",
+            "description": "Set next file for video",
+            "properties": {
+                "target": { "const": "video" },
+                "cmd": { "const": "set_next_file" },
+                "desc": {
+                    "title": "Description",
+                    "description": "Description of what this action do",
+                    "type": "string"
+                },
+                "assets": {
+                    "title": "Asset",
+                    "description": "Asset to play. This command expects exactly ONE asset",
+                    "type": "array",
+                    "items": {
+                        "oneOf":[
+                            {
+                                "title": "Asset ID",
+                                "type": "string"
+                            },
+                            {"$ref": "../asset.schema.json#"}
+                        ]
+                    },
+                    "minLength": 1,
+                    "maxLength": 1
+                },
+                "params": {
+                    "type": "object",
+                    "properties": {
+                        "entityId": {
+                            "title": "Entity ID",
+                            "description": "Entity ID of the clip",
+                            "type": "string"
+                        }
+                    },
+                    "required": ["entityId"],
+                    "additionalProperties": false
+                }
+            },
+            "required": ["target", "cmd", "params"],
+            "additionalProperties": false
+        },
+        {
             "title": "Play/Resume playback of video",
             "description": "Resume playback of video clip",
             "properties": {
@@ -563,6 +618,38 @@
                         }
                     },
                     "required": ["entityId"],
+                    "additionalProperties": false
+                }
+            },
+            "required": ["target", "cmd", "params"],
+            "additionalProperties": false
+        },
+        {
+            "title": "Set number of loops on video",
+            "description": "Set the number of loops left on the video, including the current one",
+            "properties": {
+                "target": { "const": "video" },
+                "cmd": { "const": "set_loops" },
+                "desc": {
+                    "title": "Description",
+                    "description": "Description of what this action do",
+                    "type": "string"
+                },
+                "params": {
+                    "type": "object",
+                    "properties": {
+                        "entityId": {
+                            "title": "Entity ID",
+                            "description": "Entity ID of the clip",
+                            "type": "string"
+                        },
+                        "looping": {
+                            "title": "Number of loops",
+                            "description": "Number of loops, including current one. 0 means infinitely many.",
+                            "type": "number"
+                        }
+                    },
+                    "required": ["entityId", "looping"],
                     "additionalProperties": false
                 }
             },
