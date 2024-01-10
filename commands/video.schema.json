@@ -186,6 +186,12 @@
                             "title": "Fade out",
                             "description": "Time from end of clip to start fade out (to opacity=0.0)",
                             "type": "number"
+                        },
+                        "destroyOnEnd": {
+                            "title": "Destroy on end",
+                            "description": "If true, destroy when finished. Otherwise keep showing the last frame.",
+                            "type": "boolean",
+                            "default": true
                         }
                     },
                     "required": [],
