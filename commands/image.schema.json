@@ -151,6 +151,47 @@
                             },
                             "required": ["time", "to"],
                             "additionalProperties": false
+                        },
+                        "animation": {
+                            "title": "Animation",
+                            "description": "Preset animation to apply to this image. Cannot be changed afterwards",
+                            "type": "string",
+                            "enum": ["shake", "nod", "spin"]
+                        },
+                        "transitions": {
+                            "title": "Transitions",
+                            "description": "Declare transitions between different states",
+                            "type": "object",
+                            "properties": {
+                                "move": {
+                                    "description": "Transition when moving along x- or y-axis",
+                                    "$ref": "#/$defs/transition"
+                                },
+                                "move_x": {
+                                    "description": "Transition when moving along x-axis. Overrides move transition",
+                                    "$ref": "#/$defs/transition"
+                                },
+                                "move_y": {
+                                    "description": "Transition when moving along y-axis. Overrides move transition",
+                                    "$ref": "#/$defs/transition"
+                                },
+                                "size": {
+                                    "description": "Transition when changing width or height",
+                                    "$ref": "#/$defs/transition"
+                                },
+                                "width": {
+                                    "description": "Transition when changing width. Overrides size transition",
+                                    "$ref": "#/$defs/transition"
+                                },
+                                "height": {
+                                    "description": "Transition when changing height. Overrides size transition",
+                                    "$ref": "#/$defs/transition"
+                                },
+                                "opacity": {
+                                    "description": "Transition when changing opacity",
+                                    "$ref": "#/$defs/transition"
+                                }
+                            }
                         }
                     },
                     "required": [],
@@ -411,5 +452,31 @@
             "required": ["target", "cmd", "params"],
             "additionalProperties": false
         }
-    ]
+    ],
+
+    "$defs": {
+        "transition": {
+            "type": "object",
+            "properties": {
+                "duration": {
+                    "description": "Duration (in seconds) the transition lasts",
+                    "type": "number",
+                    "minimum": 0,
+                    "default": 1
+                },
+                "type": {
+                    "description": "Transition type",
+                    "type": "string",
+                    "enum": ["ease", "linear", "ease-in", "ease-out", "ease-in-out"]
+                },
+                "delay": {
+                    "description": "Delay (in seconds) before transition starts",
+                    "type": "number",
+                    "minimum": 0,
+                    "default": 0
+                }
+            },
+            "additionalProperties": false
+        }
+    }
 }
